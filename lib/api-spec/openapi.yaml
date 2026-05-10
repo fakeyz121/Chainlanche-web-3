@@ -1,22 +1,45 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ChainLance API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: users
+    description: User management
+  - name: freelancers
+    description: Freelancer profiles
+  - name: services
+    description: Freelancer services/gigs
+  - name: orders
+    description: Order management
+  - name: escrow
+    description: Escrow system
+  - name: wallet
+    description: Wallet & ChainCoin
+  - name: messages
+    description: Chat system
+  - name: reviews
+    description: Review system
+  - name: notifications
+    description: Notifications
+  - name: analytics
+    description: Analytics & stats
+  - name: admin
+    description: Admin panel
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +47,905 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # AUTH
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  # USERS
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List users
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer }
+        - name: role
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Users list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserList"
+
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    patch:
+      operationId: updateUser
+      tags: [users]
+      summary: Update user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{id}/suspend:
+    patch:
+      operationId: suspendUser
+      tags: [users]
+      summary: Suspend/unsuspend user (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SuspendInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  # FREELANCERS
+  /freelancers:
+    get:
+      operationId: listFreelancers
+      tags: [freelancers]
+      summary: List freelancers
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: verified
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: Freelancers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FreelancerList"
+    post:
+      operationId: createFreelancer
+      tags: [freelancers]
+      summary: Become a freelancer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FreelancerInput"
+      responses:
+        "201":
+          description: Freelancer profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+
+  /freelancers/{id}:
+    get:
+      operationId: getFreelancer
+      tags: [freelancers]
+      summary: Get freelancer profile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Freelancer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+    patch:
+      operationId: updateFreelancer
+      tags: [freelancers]
+      summary: Update freelancer profile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FreelancerUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+
+  /freelancers/{id}/verify:
+    patch:
+      operationId: verifyFreelancer
+      tags: [freelancers]
+      summary: Verify/reject freelancer (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyInput"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Freelancer"
+
+  # SERVICES
+  /services:
+    get:
+      operationId: listServices
+      tags: [services]
+      summary: List services/gigs
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: minPrice
+          in: query
+          schema: { type: number }
+        - name: maxPrice
+          in: query
+          schema: { type: number }
+        - name: freelancerId
+          in: query
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Services
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceList"
+    post:
+      operationId: createService
+      tags: [services]
+      summary: Create a service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceInput"
+      responses:
+        "201":
+          description: Service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+
+  /services/{id}:
+    get:
+      operationId: getService
+      tags: [services]
+      summary: Get service detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Service
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+    patch:
+      operationId: updateService
+      tags: [services]
+      summary: Update service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ServiceUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Service"
+    delete:
+      operationId: deleteService
+      tags: [services]
+      summary: Delete service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "204":
+          description: Deleted
+
+  /services/featured:
+    get:
+      operationId: getFeaturedServices
+      tags: [services]
+      summary: Get featured/trending services
+      responses:
+        "200":
+          description: Featured services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+
+  # ORDERS
+  /orders:
+    get:
+      operationId: listOrders
+      tags: [orders]
+      summary: List orders
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer }
+        - name: status
+          in: query
+          schema: { type: string }
+        - name: role
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Orders
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderList"
+    post:
+      operationId: createOrder
+      tags: [orders]
+      summary: Place an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderInput"
+      responses:
+        "201":
+          description: Order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      tags: [orders]
+      summary: Get order detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+    patch:
+      operationId: updateOrder
+      tags: [orders]
+      summary: Update order status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+
+  # ESCROW
+  /escrow:
+    get:
+      operationId: listEscrow
+      tags: [escrow]
+      summary: List escrow records
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Escrow list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Escrow"
+
+  /escrow/{id}:
+    get:
+      operationId: getEscrow
+      tags: [escrow]
+      summary: Get escrow detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Escrow
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Escrow"
+
+  /escrow/{id}/release:
+    post:
+      operationId: releaseEscrow
+      tags: [escrow]
+      summary: Release escrow payment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Released
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Escrow"
+
+  /escrow/{id}/dispute:
+    post:
+      operationId: disputeEscrow
+      tags: [escrow]
+      summary: Open a dispute
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DisputeInput"
+      responses:
+        "200":
+          description: Dispute opened
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Escrow"
+
+  # WALLET
+  /wallet/balance:
+    get:
+      operationId: getWalletBalance
+      tags: [wallet]
+      summary: Get wallet balance
+      responses:
+        "200":
+          description: Balance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WalletBalance"
+
+  /wallet/transactions:
+    get:
+      operationId: listTransactions
+      tags: [wallet]
+      summary: List transactions
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer }
+        - name: limit
+          in: query
+          schema: { type: integer }
+        - name: type
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Transactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionList"
+
+  /wallet/topup:
+    post:
+      operationId: requestTopup
+      tags: [wallet]
+      summary: Request ChainCoin top-up
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TopupInput"
+      responses:
+        "201":
+          description: Topup request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopupRequest"
+
+  /wallet/topup/list:
+    get:
+      operationId: listTopupRequests
+      tags: [wallet]
+      summary: List top-up requests
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Topup requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TopupRequest"
+
+  /wallet/topup/{id}/approve:
+    patch:
+      operationId: approveTopup
+      tags: [wallet]
+      summary: Approve/reject top-up request (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TopupApprovalInput"
+      responses:
+        "200":
+          description: Updated topup
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopupRequest"
+
+  /wallet/withdraw:
+    post:
+      operationId: requestWithdraw
+      tags: [wallet]
+      summary: Request withdrawal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WithdrawInput"
+      responses:
+        "201":
+          description: Withdraw request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+
+  /wallet/transfer:
+    post:
+      operationId: transferCoins
+      tags: [wallet]
+      summary: Transfer ChainCoin to another user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransferInput"
+      responses:
+        "200":
+          description: Transfer result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+
+  # MESSAGES
+  /conversations:
+    get:
+      operationId: listConversations
+      tags: [messages]
+      summary: List conversations
+      responses:
+        "200":
+          description: Conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Conversation"
+    post:
+      operationId: createConversation
+      tags: [messages]
+      summary: Start a conversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConversationInput"
+      responses:
+        "201":
+          description: Conversation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+
+  /conversations/{id}/messages:
+    get:
+      operationId: listMessages
+      tags: [messages]
+      summary: Get messages in conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+    post:
+      operationId: sendMessage
+      tags: [messages]
+      summary: Send a message
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageInput"
+      responses:
+        "201":
+          description: Message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  # REVIEWS
+  /reviews:
+    get:
+      operationId: listReviews
+      tags: [reviews]
+      summary: List reviews
+      parameters:
+        - name: freelancerId
+          in: query
+          schema: { type: integer }
+        - name: serviceId
+          in: query
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+    post:
+      operationId: createReview
+      tags: [reviews]
+      summary: Submit a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewInput"
+      responses:
+        "201":
+          description: Review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+
+  # NOTIFICATIONS
+  /notifications:
+    get:
+      operationId: listNotifications
+      tags: [notifications]
+      summary: List notifications
+      responses:
+        "200":
+          description: Notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+
+  /notifications/{id}/read:
+    patch:
+      operationId: markNotificationRead
+      tags: [notifications]
+      summary: Mark notification as read
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+
+  /notifications/read-all:
+    patch:
+      operationId: markAllNotificationsRead
+      tags: [notifications]
+      summary: Mark all notifications as read
+      responses:
+        "200":
+          description: Done
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+
+  # ANALYTICS
+  /analytics/dashboard:
+    get:
+      operationId: getDashboardStats
+      tags: [analytics]
+      summary: Get dashboard summary stats
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  /analytics/revenue:
+    get:
+      operationId: getRevenueAnalytics
+      tags: [analytics]
+      summary: Get revenue chart data
+      parameters:
+        - name: period
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Revenue data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RevenuePoint"
+
+  /analytics/marketplace:
+    get:
+      operationId: getMarketplaceStats
+      tags: [analytics]
+      summary: Get marketplace overview stats
+      responses:
+        "200":
+          description: Marketplace stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketplaceStats"
+
+  /analytics/top-freelancers:
+    get:
+      operationId: getTopFreelancers
+      tags: [analytics]
+      summary: Get top-earning freelancers
+      responses:
+        "200":
+          description: Top freelancers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FreelancerSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +953,533 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required: [success]
+
+    # AUTH
+    RegisterInput:
+      type: object
+      required: [username, email, password]
+      properties:
+        username: { type: string }
+        email: { type: string }
+        password: { type: string }
+        role: { type: string }
+
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string }
+        password: { type: string }
+
+    AuthResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token: { type: string }
+        user:
+          $ref: "#/components/schemas/User"
+
+    # USER
+    User:
+      type: object
+      required: [id, username, email, role, createdAt]
+      properties:
+        id: { type: integer }
+        username: { type: string }
+        email: { type: string }
+        role: { type: string }
+        avatarUrl: { type: ["string", "null"] }
+        walletAddress: { type: ["string", "null"] }
+        isSuspended: { type: boolean }
+        createdAt: { type: string }
+        chainCoinBalance: { type: number }
+        level: { type: ["integer", "null"] }
+        trustScore: { type: ["number", "null"] }
+
+    UserUpdate:
+      type: object
+      properties:
+        username: { type: string }
+        avatarUrl: { type: string }
+        walletAddress: { type: string }
+
+    SuspendInput:
+      type: object
+      required: [suspended]
+      properties:
+        suspended: { type: boolean }
+        reason: { type: string }
+
+    UserList:
+      type: object
+      required: [users, total, page, limit]
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+
+    # FREELANCER
+    Freelancer:
+      type: object
+      required: [id, userId, bio, skills, category, hourlyRate, status, createdAt]
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        user:
+          $ref: "#/components/schemas/User"
+        bio: { type: string }
+        skills:
+          type: array
+          items: { type: string }
+        category: { type: string }
+        hourlyRate: { type: number }
+        status: { type: string }
+        portfolioItems:
+          type: array
+          items: { type: string }
+        completedOrders: { type: integer }
+        avgRating: { type: ["number", "null"] }
+        totalEarnings: { type: number }
+        level: { type: ["integer", "null"] }
+        createdAt: { type: string }
+
+    FreelancerInput:
+      type: object
+      required: [bio, skills, category, hourlyRate]
+      properties:
+        bio: { type: string }
+        skills:
+          type: array
+          items: { type: string }
+        category: { type: string }
+        hourlyRate: { type: number }
+        portfolioItems:
+          type: array
+          items: { type: string }
+
+    FreelancerUpdate:
+      type: object
+      properties:
+        bio: { type: string }
+        skills:
+          type: array
+          items: { type: string }
+        category: { type: string }
+        hourlyRate: { type: number }
+        portfolioItems:
+          type: array
+          items: { type: string }
+
+    VerifyInput:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+        reason: { type: string }
+
+    FreelancerList:
+      type: object
+      required: [freelancers, total, page, limit]
+      properties:
+        freelancers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Freelancer"
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+
+    FreelancerSummary:
+      type: object
+      required: [id, userId, username, totalEarnings, completedOrders, avgRating]
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        username: { type: string }
+        avatarUrl: { type: ["string", "null"] }
+        totalEarnings: { type: number }
+        completedOrders: { type: integer }
+        avgRating: { type: ["number", "null"] }
+        category: { type: string }
+
+    # SERVICE
+    Service:
+      type: object
+      required: [id, freelancerId, title, description, category, price, deliveryDays, status, createdAt]
+      properties:
+        id: { type: integer }
+        freelancerId: { type: integer }
+        freelancer:
+          $ref: "#/components/schemas/Freelancer"
+        title: { type: string }
+        description: { type: string }
+        category: { type: string }
+        price: { type: number }
+        deliveryDays: { type: integer }
+        status: { type: string }
+        thumbnailUrl: { type: ["string", "null"] }
+        previewImages:
+          type: array
+          items: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        totalOrders: { type: integer }
+        avgRating: { type: ["number", "null"] }
+        isFeatured: { type: boolean }
+        createdAt: { type: string }
+
+    ServiceInput:
+      type: object
+      required: [title, description, category, price, deliveryDays]
+      properties:
+        title: { type: string }
+        description: { type: string }
+        category: { type: string }
+        price: { type: number }
+        deliveryDays: { type: integer }
+        thumbnailUrl: { type: string }
+        previewImages:
+          type: array
+          items: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+
+    ServiceUpdate:
+      type: object
+      properties:
+        title: { type: string }
+        description: { type: string }
+        category: { type: string }
+        price: { type: number }
+        deliveryDays: { type: integer }
+        thumbnailUrl: { type: string }
+        previewImages:
+          type: array
+          items: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        status: { type: string }
+
+    ServiceList:
+      type: object
+      required: [services, total, page, limit]
+      properties:
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/Service"
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+
+    # ORDER
+    Order:
+      type: object
+      required: [id, serviceId, clientId, freelancerId, amount, status, createdAt]
+      properties:
+        id: { type: integer }
+        serviceId: { type: integer }
+        service:
+          $ref: "#/components/schemas/Service"
+        clientId: { type: integer }
+        client:
+          $ref: "#/components/schemas/User"
+        freelancerId: { type: integer }
+        freelancer:
+          $ref: "#/components/schemas/Freelancer"
+        amount: { type: number }
+        status: { type: string }
+        requirements: { type: ["string", "null"] }
+        deliverables: { type: ["string", "null"] }
+        dueDate: { type: ["string", "null"] }
+        completedAt: { type: ["string", "null"] }
+        escrowId: { type: ["integer", "null"] }
+        createdAt: { type: string }
+
+    OrderInput:
+      type: object
+      required: [serviceId, requirements]
+      properties:
+        serviceId: { type: integer }
+        requirements: { type: string }
+
+    OrderUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+        deliverables: { type: string }
+        rejectionReason: { type: string }
+
+    OrderList:
+      type: object
+      required: [orders, total, page, limit]
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: "#/components/schemas/Order"
+        total: { type: integer }
+        page: { type: integer }
+        limit: { type: integer }
+
+    # ESCROW
+    Escrow:
+      type: object
+      required: [id, orderId, amount, status, createdAt]
+      properties:
+        id: { type: integer }
+        orderId: { type: integer }
+        amount: { type: number }
+        status: { type: string }
+        releasedAt: { type: ["string", "null"] }
+        disputeReason: { type: ["string", "null"] }
+        txHash: { type: ["string", "null"] }
+        milestones:
+          type: array
+          items:
+            $ref: "#/components/schemas/Milestone"
+        createdAt: { type: string }
+
+    Milestone:
+      type: object
+      required: [id, title, amount, status]
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        amount: { type: number }
+        status: { type: string }
+        completedAt: { type: ["string", "null"] }
+
+    DisputeInput:
+      type: object
+      required: [reason]
+      properties:
+        reason: { type: string }
+
+    # WALLET
+    WalletBalance:
+      type: object
+      required: [chainCoin, usdEquivalent, lockedInEscrow]
+      properties:
+        chainCoin: { type: number }
+        usdEquivalent: { type: number }
+        lockedInEscrow: { type: number }
+        walletAddress: { type: ["string", "null"] }
+
+    Transaction:
+      type: object
+      required: [id, userId, type, amount, status, createdAt]
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        type: { type: string }
+        amount: { type: number }
+        status: { type: string }
+        txHash: { type: ["string", "null"] }
+        description: { type: ["string", "null"] }
+        createdAt: { type: string }
+
+    TransactionList:
+      type: object
+      required: [transactions, total]
+      properties:
+        transactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Transaction"
+        total: { type: integer }
+
+    TopupInput:
+      type: object
+      required: [amount, txHash, paymentMethod]
+      properties:
+        amount: { type: number }
+        txHash: { type: string }
+        paymentMethod: { type: string }
+        network: { type: string }
+
+    TopupRequest:
+      type: object
+      required: [id, userId, amount, txHash, status, createdAt]
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        user:
+          $ref: "#/components/schemas/User"
+        amount: { type: number }
+        txHash: { type: string }
+        paymentMethod: { type: string }
+        network: { type: ["string", "null"] }
+        status: { type: string }
+        adminNote: { type: ["string", "null"] }
+        createdAt: { type: string }
+
+    TopupApprovalInput:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+        adminNote: { type: string }
+
+    WithdrawInput:
+      type: object
+      required: [amount, walletAddress, network]
+      properties:
+        amount: { type: number }
+        walletAddress: { type: string }
+        network: { type: string }
+
+    TransferInput:
+      type: object
+      required: [toUserId, amount]
+      properties:
+        toUserId: { type: integer }
+        amount: { type: number }
+        note: { type: string }
+
+    # MESSAGES
+    Conversation:
+      type: object
+      required: [id, participantIds, createdAt]
+      properties:
+        id: { type: integer }
+        participantIds:
+          type: array
+          items: { type: integer }
+        participants:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        lastMessage:
+          $ref: "#/components/schemas/Message"
+        unreadCount: { type: integer }
+        createdAt: { type: string }
+
+    ConversationInput:
+      type: object
+      required: [participantId]
+      properties:
+        participantId: { type: integer }
+        orderId: { type: ["integer", "null"] }
+
+    Message:
+      type: object
+      required: [id, conversationId, senderId, content, createdAt]
+      properties:
+        id: { type: integer }
+        conversationId: { type: integer }
+        senderId: { type: integer }
+        sender:
+          $ref: "#/components/schemas/User"
+        content: { type: string }
+        fileUrl: { type: ["string", "null"] }
+        fileType: { type: ["string", "null"] }
+        isRead: { type: boolean }
+        createdAt: { type: string }
+
+    MessageInput:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string }
+        fileUrl: { type: string }
+        fileType: { type: string }
+
+    # REVIEWS
+    Review:
+      type: object
+      required: [id, orderId, reviewerId, freelancerId, rating, comment, createdAt]
+      properties:
+        id: { type: integer }
+        orderId: { type: integer }
+        reviewerId: { type: integer }
+        reviewer:
+          $ref: "#/components/schemas/User"
+        freelancerId: { type: integer }
+        serviceId: { type: ["integer", "null"] }
+        rating: { type: integer }
+        comment: { type: string }
+        createdAt: { type: string }
+
+    ReviewInput:
+      type: object
+      required: [orderId, rating, comment]
+      properties:
+        orderId: { type: integer }
+        rating: { type: integer }
+        comment: { type: string }
+
+    # NOTIFICATIONS
+    Notification:
+      type: object
+      required: [id, userId, type, title, message, isRead, createdAt]
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        type: { type: string }
+        title: { type: string }
+        message: { type: string }
+        isRead: { type: boolean }
+        linkUrl: { type: ["string", "null"] }
+        createdAt: { type: string }
+
+    # ANALYTICS
+    DashboardStats:
+      type: object
+      required: [totalRevenue, activeOrders, totalUsers, escrowLocked, totalServices, completedOrders]
+      properties:
+        totalRevenue: { type: number }
+        activeOrders: { type: integer }
+        totalUsers: { type: integer }
+        escrowLocked: { type: number }
+        totalServices: { type: integer }
+        completedOrders: { type: integer }
+        pendingTopups: { type: integer }
+        chainCoinCirculation: { type: number }
+
+    RevenuePoint:
+      type: object
+      required: [date, revenue, orders]
+      properties:
+        date: { type: string }
+        revenue: { type: number }
+        orders: { type: integer }
+
+    MarketplaceStats:
+      type: object
+      required: [totalFreelancers, totalServices, totalOrders, avgOrderValue]
+      properties:
+        totalFreelancers: { type: integer }
+        totalServices: { type: integer }
+        totalOrders: { type: integer }
+        avgOrderValue: { type: number }
+        categoryBreakdown:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryCount"
+        transactionVolume: { type: number }
+
+    CategoryCount:
+      type: object
+      required: [category, count]
+      properties:
+        category: { type: string }
+        count: { type: integer }

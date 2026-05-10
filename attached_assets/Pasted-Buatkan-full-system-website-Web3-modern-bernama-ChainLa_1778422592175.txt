@@ -1,0 +1,345 @@
+Buatkan full system website Web3 modern bernama “ChainLance” dengan konsep seperti Tebex tetapi lebih modern, lebih premium, dan fokus pada freelance marketplace + escrow + crypto payment khusus game developer ecosystem.
+
+Website harus terlihat seperti startup teknologi besar internasional dengan style:
+- Tebex modern
+- Solana
+- Stripe
+- Linear
+- Vercel
+- Web3 gaming marketplace
+- startup funded Silicon Valley
+
+━━━━━━━━━━━━━━━
+🎨 DESIGN STYLE
+━━━━━━━━━━━━━━━
+
+Tema:
+- Dark futuristic
+- Neon glow modern
+- Premium SaaS UI
+- Glassmorphism
+- Web3 aesthetic
+- Gaming ecosystem vibes
+
+Gunakan:
+- smooth animation
+- glowing border
+- animated gradient
+- floating particles
+- modern shadows
+- premium dashboard UI
+
+Warna:
+- #050816
+- navy dark
+- purple neon
+- cyan glow
+
+Font:
+- Inter
+- Space Grotesk
+- Satoshi
+
+━━━━━━━━━━━━━━━
+🌐 LANDING PAGE
+━━━━━━━━━━━━━━━
+
+Section:
+1. Hero Section
+2. Trusted Ecosystem
+3. Problem
+4. Solution
+5. Features
+6. Marketplace Preview
+7. Analytics Preview
+8. Testimonials
+9. FAQ
+10. CTA
+
+Headline:
+“Instant Escrow. Instant Trust.”
+
+Subtitle:
+“Web3 freelance marketplace untuk game developer ecosystem.”
+
+━━━━━━━━━━━━━━━
+🔐 AUTH SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- Login
+- Register
+- Connect Wallet
+- JWT Auth
+- Email verification
+- Role system
+
+Role:
+- User
+- Freelancer
+- Admin
+
+Wallet:
+- Phantom
+- MetaMask
+- WalletConnect
+
+━━━━━━━━━━━━━━━
+🏠 MAIN DASHBOARD
+━━━━━━━━━━━━━━━
+
+Menu:
+- Beranda
+- Marketplace
+- Katalog Freelance
+- Become Freelancer
+- Wallet
+- Escrow
+- Orders
+- Messages
+- Analytics
+- Notifications
+- Settings
+
+Gunakan:
+- sidebar modern
+- premium dashboard cards
+- Web3 analytics UI
+
+━━━━━━━━━━━━━━━
+📦 MARKETPLACE SYSTEM
+━━━━━━━━━━━━━━━
+
+Kategori:
+- FiveM Script
+- Roblox Script
+- Minecraft Plugin
+- UI Design
+- Mapping
+- Web Development
+- Discord Bot
+- Logo Design
+
+Fitur:
+- Search
+- Filter
+- Rating
+- Wishlist
+- Portfolio preview
+- Service detail
+- Freelancer profile
+
+━━━━━━━━━━━━━━━
+👨‍💻 FREELANCER SYSTEM
+━━━━━━━━━━━━━━━
+
+Flow:
+1. Daftar freelancer
+2. Upload portfolio
+3. Verifikasi profile
+4. Create service
+5. Receive order
+6. Submit project
+7. Receive payment
+
+Freelancer Dashboard:
+- My Services
+- Active Orders
+- Earnings
+- Wallet
+- Reviews
+- Analytics
+- Escrow History
+
+━━━━━━━━━━━━━━━
+💳 PAYMENT SYSTEM
+━━━━━━━━━━━━━━━
+
+Support:
+- Solana
+- Ethereum
+- USDT
+- Internal Coin (ChainCoin)
+
+Tambahkan:
+- wallet connect
+- crypto payment
+- QR payment
+- payment history
+- transaction hash verification
+- blockchain explorer link
+
+━━━━━━━━━━━━━━━
+🪙 CHAINCOIN SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan internal balance:
+“ChainCoin”
+
+Fitur:
+- top up balance
+- transfer coin
+- escrow payment
+- withdraw balance
+
+Flow Top Up:
+1. User top up
+2. Upload transaction hash
+3. Pending approval
+4. Admin approve
+5. Balance bertambah
+
+Status:
+- pending
+- approved
+- rejected
+
+━━━━━━━━━━━━━━━
+🔒 ESCROW SYSTEM
+━━━━━━━━━━━━━━━
+
+Flow:
+1. Client hire freelancer
+2. Payment masuk escrow
+3. Freelancer mengerjakan project
+4. Submit completion
+5. Auto release payment
+6. Payment masuk wallet freelancer
+
+Tambahkan:
+- escrow tracker
+- payment timeline
+- milestone system
+- smart contract simulation
+- release animation
+
+━━━━━━━━━━━━━━━
+💬 CHAT SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- real-time chat
+- file upload
+- image preview
+- typing indicator
+- notification badge
+
+━━━━━━━━━━━━━━━
+⭐ REVIEW SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- rating bintang
+- review user
+- freelancer reputation
+- trust score
+
+━━━━━━━━━━━━━━━
+📊 ANALYTICS SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- revenue analytics
+- total escrow
+- active users
+- transaction volume
+- crypto statistics
+- marketplace growth chart
+
+━━━━━━━━━━━━━━━
+👑 ADMIN PANEL
+━━━━━━━━━━━━━━━
+
+Menu:
+- User Management
+- Freelancer Verification
+- Marketplace Moderation
+- Top Up Approval
+- Wallet Monitoring
+- Escrow Monitoring
+- Revenue Dashboard
+- Transaction Logs
+- System Settings
+
+Admin bisa:
+- approve freelancer
+- approve top up
+- suspend user
+- manage marketplace
+- monitor escrow
+
+━━━━━━━━━━━━━━━
+🔔 NOTIFICATION SYSTEM
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- real-time notification
+- payment success
+- escrow release
+- order update
+- admin alert
+
+━━━━━━━━━━━━━━━
+📱 MOBILE RESPONSIVE
+━━━━━━━━━━━━━━━
+
+Buat:
+- mobile responsive UI
+- mobile dashboard
+- smooth animation
+- mobile wallet UI
+
+━━━━━━━━━━━━━━━
+⚡ PREMIUM FEATURES
+━━━━━━━━━━━━━━━
+
+Tambahkan:
+- AI recommendation
+- creator level system
+- NFT badge profile
+- referral reward
+- affiliate system
+- featured freelancer
+- premium membership
+
+━━━━━━━━━━━━━━━
+🛠️ TECH STACK
+━━━━━━━━━━━━━━━
+
+Frontend:
+- Next.js
+- Tailwind CSS
+- Framer Motion
+
+Backend:
+- Node.js
+- Express.js
+- PostgreSQL
+- Redis
+
+Blockchain:
+- Solana
+- WalletConnect
+- Smart Contract
+
+━━━━━━━━━━━━━━━
+📌 OUTPUT
+━━━━━━━━━━━━━━━
+
+Buat:
+- landing page
+- full dashboard system
+- admin panel
+- escrow UI
+- wallet integration
+- marketplace UI
+- modern animations
+- responsive mobile UI
+
+Hasil akhir harus:
+- lebih modern dari Tebex
+- seperti startup Web3 besar
+- premium gaming marketplace
+- cocok untuk hackathon internasional
+- visual sangat profesional
+- startup aesthetic level Silicon Vall
