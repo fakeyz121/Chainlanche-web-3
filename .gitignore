@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # compiled output
@@ -47,3 +48,6 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+=======
+f
+>>>>>>> 4e714fe1c9635f82768aa4ef0bce9ff74fdaf950
