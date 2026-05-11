@@ -41,6 +41,3 @@ Funds are securely locked in smart contracts until both parties complete the agr
 - Reputation system
 - Multi-chain support
 - DAO governance
-
-## Team
-ChainLance Team — Superteam Indonesia Hackathon
